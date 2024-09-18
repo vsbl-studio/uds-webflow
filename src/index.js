@@ -684,11 +684,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     b.classList.remove("open");
                 });
                 megaMenu.classList.remove("open");
+                bodyEl.classList.remove("no-scroll");
+                lenis.start();
             } else {
                 megaMenuLinks.forEach((b) => {
                     b.classList.add("open");
                 });
                 megaMenu.classList.add("open");
+                bodyEl.classList.add("no-scroll");
+                lenis.stop();
             }
         });
     });
