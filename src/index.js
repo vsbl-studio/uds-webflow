@@ -3,13 +3,18 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import Swiper from "swiper";
-import { Navigation, Pagination, EffectFade, Autoplay } from "swiper/modules";
-import "swiper/css";
+import {
+    Navigation,
+    Pagination,
+    EffectFade,
+    Autoplay,
+    Scrollbar,
+} from "swiper/modules";
+// import "swiper/css";
 
 document.addEventListener("DOMContentLoaded", function () {
-    Swiper.use([Navigation, Pagination, EffectFade, Autoplay]);
+    Swiper.use([Navigation, Pagination, EffectFade, Autoplay, Scrollbar]);
 
-    console.log("Autoplay", Autoplay);
     const lenis = new Lenis();
 
     function raf(time) {
@@ -327,6 +332,10 @@ document.addEventListener("DOMContentLoaded", function () {
             ...document.querySelectorAll(".js-accordion-header"),
         ];
 
+        const sectionProductFeatures = document.querySelector(
+            ".section_product-features"
+        );
+
         if (accordions.length > 0) {
             accordions.forEach((item, index) => {
                 const content = item.parentElement.querySelector(
@@ -382,6 +391,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         item.classList.add("is-active");
                         iconPlus.style.display = "none";
                         iconMinus.style.display = "block";
+                    }
+
+                    // Prevent scrolling if accordion is in .section_product-features
+                    if (sectionProductFeatures) {
+                        sectionProductFeatures.style.overflow = "hidden"; // Prevent scrolling
+                        bodyEl.classList.add("no-scroll");
+                        lenis.stop();
+                        setTimeout(() => {
+                            sectionProductFeatures.style.overflow = ""; // Reset after animation
+                            bodyEl.classList.remove("no-scroll");
+                            lenis.start();
+                        }, 500); // Duration should match your transition time
                     }
                 };
             });
