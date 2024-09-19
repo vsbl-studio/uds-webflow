@@ -9,6 +9,7 @@ import "swiper/css";
 document.addEventListener("DOMContentLoaded", function () {
     Swiper.use([Navigation, Pagination, EffectFade, Autoplay]);
 
+    console.log("Autoplay", Autoplay);
     const lenis = new Lenis();
 
     function raf(time) {
