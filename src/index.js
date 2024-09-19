@@ -456,6 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
             observer.observe(wrapper);
         }
     });
+
     const indicators = document.querySelectorAll(".scroll-item-indicator");
     const steps = document.querySelectorAll(".js-steps");
     if (steps) {
@@ -473,7 +474,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     onUpdate: (self) => {
                         const progress = self.progress;
                         if (progress > 0.01) {
-                            removeActiveClass(indicators);
+                            indicators.forEach((item) => {
+                                item.classList.remove("active");
+                            });
+
                             station.classList.add("active");
                             indicators[index].classList.add("active");
                         } else {
@@ -529,11 +533,44 @@ document.addEventListener("DOMContentLoaded", function () {
     $(`[data="year"]`).html(currentYear);
 
     let timerInterval;
+    let intervalId;
     let startTime;
+
+    const elements = ["see", "perceive", "eliminate"];
+    let currentIndex = 0;
+
+    const progressBars = document.querySelectorAll(".video-progress-status");
+    const progressBarTimelines = [];
+
+    let currentVideoIndex = 0;
+
+    // Create timelines for each progress bar
+    elements.forEach((element, index) => {
+        const progressBar = progressBars[index];
+        const tl = gsap.timeline({ paused: true });
+        tl.to(progressBar, { width: "100%", duration: 6, ease: "linear" }); // Duration set to match the video length (6s in this case)
+        progressBarTimelines.push(tl);
+    });
+
+    function playProgressBar(index) {
+        // If skipping to another video, fill the current one
+        if (progressBarTimelines[currentVideoIndex]) {
+            progressBarTimelines[currentVideoIndex].progress(1).pause(); // Fill the bar to 100%
+        }
+
+        // Reset the progress bar for the first element before restarting it
+        if (index === 0) {
+            progressBarTimelines[index].progress(0).pause();
+            resetProgressBars();
+        }
+
+        currentVideoIndex = index;
+        progressBarTimelines[currentVideoIndex].restart();
+    }
 
     const timerDisplay = document.querySelector(".videos-info-text");
 
-    function startTimer(timerDisplay) {
+    function startTimer() {
         clearInterval(timerInterval);
 
         startTime = Date.now();
@@ -558,45 +595,27 @@ document.addEventListener("DOMContentLoaded", function () {
         timerInterval = setInterval(updateTimer, 10); // Update every 10ms for smoother display
     }
 
-    function resetTimer() {
-        clearInterval(intervalId);
-        startVideoRotation();
+    function resetProgressBars() {
+        progressBarTimelines.forEach((tl) => tl.progress(0).pause());
+        clearInterval(timerInterval); // Reset timeline without clearing
     }
 
     function startVideoRotation() {
         showVideoBlockItem(elements[currentIndex]);
+        playProgressBar(currentIndex);
+        startTimer();
+
         intervalId = setInterval(() => {
             currentIndex = (currentIndex + 1) % elements.length;
-            showVideoBlockItem(elements[currentIndex]);
-        }, 6000);
-    }
+            // Reset progress bars if we're looping back to the first element
+            if (currentIndex === 0) {
+                resetProgressBars();
+            }
 
-    function removeActiveClass(selector) {
-        selector.forEach((item) => {
-            item.classList.remove("active");
-        });
-    }
-    function closedSlidesAnimation() {
-        const steps = document.querySelectorAll(".slides-item");
-        if (steps.length === 0 || window.innerWidth < 1024) return;
-        steps.forEach((step, index) => {
-            if (index === 0) return;
-            const previousOverlay = steps[index - 1].querySelector(
-                ".slides-item-overlay"
-            );
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: step,
-                    ease: "linear",
-                    scrub: 1,
-                    start: "top bottom",
-                    end: "top top",
-                },
-            });
-            tl.to(previousOverlay, {
-                opacity: 0.2,
-            });
-        });
+            showVideoBlockItem(elements[currentIndex]);
+            playProgressBar(currentIndex);
+            startTimer(); // Start timer every time the video changes
+        }, 6000);
     }
 
     function toggleVideoBlockItem(element) {
@@ -610,9 +629,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 .querySelector(`#show-${element}-video`)
                 .addEventListener("click", function (e) {
                     e.preventDefault();
-                    resetTimer(intervalId);
+
+                    clearInterval(intervalId); // Stop automatic rotation
+                    clearInterval(timerInterval); // Clear the timer
+                    resetProgressBars(); // Reset all progress bars
+
                     currentIndex = elements.indexOf(element); // Update the index to the clicked element
                     showVideoBlockItem(element);
+                    playProgressBar(currentIndex);
+                    startTimer();
+
+                    setTimeout(() => {
+                        startVideoRotation();
+                    }, 100);
+                    // Restart auto-play after manual selection
+                    // intervalId = setInterval(() => {
+                    //     currentIndex = (currentIndex + 1) % elements.length;
+                    //     showVideoBlockItem(elements[currentIndex]);
+                    //     playProgressBar(currentIndex);
+                    //     startTimer();
+
+                    //     if (currentIndex === 0) resetProgressBars();
+                    // }, 6000);
                 });
         }
     }
@@ -640,22 +678,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     vid.style.display = "none";
                 }
             });
-
-            startTimer(timerDisplay);
         }
     }
 
-    let intervalId;
-    const elements = ["see", "perceive", "eliminate"];
-    let currentIndex = 0;
-
-    toggleVideoBlockItem("see");
-    toggleVideoBlockItem("perceive");
-    toggleVideoBlockItem("eliminate");
+    // Initialize the video rotation
     startVideoRotation();
-    if (timerDisplay) {
-        startTimer(timerDisplay);
-    }
+
+    // Call toggleVideoBlockItem for each element
+    elements.forEach((element) => toggleVideoBlockItem(element));
 
     let latitude = 45.254336;
     let longitude = 30.204552;
@@ -698,4 +728,27 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    function closedSlidesAnimation() {
+        const steps = document.querySelectorAll(".slides-item");
+        if (steps.length === 0 || window.innerWidth < 1024) return;
+        steps.forEach((step, index) => {
+            if (index === 0) return;
+            const previousOverlay = steps[index - 1].querySelector(
+                ".slides-item-overlay"
+            );
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: step,
+                    ease: "linear",
+                    scrub: 1,
+                    start: "top bottom",
+                    end: "top top",
+                },
+            });
+            tl.to(previousOverlay, {
+                opacity: 0.2,
+            });
+        });
+    }
 });
