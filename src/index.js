@@ -3,10 +3,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import Swiper from "swiper";
-import { Navigation, Pagination, EffectFade } from "swiper/modules";
+import { Navigation, Pagination, EffectFade, Autoplay } from "swiper/modules";
 // import "swiper/css";
 
-Swiper.use([Navigation, Pagination, EffectFade]);
+Swiper.use([Navigation, Pagination, EffectFade, Autoplay]);
 
 document.addEventListener("DOMContentLoaded", function () {
     const lenis = new Lenis();
@@ -212,7 +212,6 @@ document.addEventListener("DOMContentLoaded", function () {
             centeredSlides: true,
             autoplay: {
                 delay: 0,
-                enabled: true,
                 disableOnInteraction: false,
             },
             breakpoints: {
