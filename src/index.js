@@ -4,11 +4,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import Swiper from "swiper";
 import { Navigation, Pagination, EffectFade, Autoplay } from "swiper/modules";
-// import "swiper/css";
-
-Swiper.use([Navigation, Pagination, EffectFade, Autoplay]);
+import "swiper/css";
 
 document.addEventListener("DOMContentLoaded", function () {
+    Swiper.use([Navigation, Pagination, EffectFade, Autoplay]);
+
     const lenis = new Lenis();
 
     function raf(time) {
