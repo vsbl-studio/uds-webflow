@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function getInTouchVisibility() {
         const getInTouchModal = document.querySelector(".modal_get-in-touch");
 
-        if (getInTouchModal) {
+        if (getInTouchModal.length) {
             if (window.location.hash === "#get-in-touch") {
                 getInTouchModal.classList.add("open");
                 bodyEl.classList.add("no-scroll");
