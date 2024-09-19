@@ -156,23 +156,21 @@ document.addEventListener("DOMContentLoaded", function () {
     function getInTouchVisibility() {
         const getInTouchModal = document.querySelector(".modal_get-in-touch");
 
-        if (getInTouchModal.length) {
-            if (window.location.hash === "#get-in-touch") {
-                getInTouchModal.classList.add("open");
-                bodyEl.classList.add("no-scroll");
-                lenis.stop();
+        if (window.location.hash === "#get-in-touch") {
+            getInTouchModal.classList.add("open");
+            bodyEl.classList.add("no-scroll");
+            lenis.stop();
 
-                if (overlayEl) {
-                    overlayEl.classList.add("open");
-                }
-            } else {
-                getInTouchModal.classList.remove("open");
-                bodyEl.classList.remove("no-scroll");
-                lenis.start();
+            if (overlayEl) {
+                overlayEl.classList.add("open");
+            }
+        } else {
+            getInTouchModal.classList.remove("open");
+            bodyEl.classList.remove("no-scroll");
+            lenis.start();
 
-                if (overlayEl) {
-                    overlayEl.classList.remove("open");
-                }
+            if (overlayEl) {
+                overlayEl.classList.remove("open");
             }
         }
     }
