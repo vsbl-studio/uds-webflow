@@ -320,6 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         },
                         992: {
                             slidesPerView: 3.1,
+                            spaceBetween: 20,
                         },
                     },
                 }
@@ -332,9 +333,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ...document.querySelectorAll(".js-accordion-header"),
         ];
 
-        const sectionProductFeatures = document.querySelector(
-            ".section_product-features"
-        );
+      
 
         if (accordions.length > 0) {
             accordions.forEach((item, index) => {
@@ -361,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 item.onclick = () => {
-                    const isActive = item.classList.contains("is-active");
+                    const isActive = item.classList.contains("is-active");                    
 
                     if (isActive) {
                         content.style.height = "0px";
@@ -393,17 +392,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         iconMinus.style.display = "block";
                     }
 
-                    // Prevent scrolling if accordion is in .section_product-features
-                    if (sectionProductFeatures) {
-                        sectionProductFeatures.style.overflow = "hidden"; // Prevent scrolling
-                        bodyEl.classList.add("no-scroll");
-                        lenis.stop();
-                        setTimeout(() => {
-                            sectionProductFeatures.style.overflow = ""; // Reset after animation
-                            bodyEl.classList.remove("no-scroll");
-                            lenis.start();
-                        }, 500); // Duration should match your transition time
-                    }
+                    
                 };
             });
         }
