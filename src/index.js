@@ -830,10 +830,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         emailInput.addEventListener("input", function () {
             emailRequired.style.display = "none";
+            newsletterSuccess.style.display = "none";
+            newsletterError.style.display = "none";
         });
 
         privacyCheckbox.addEventListener("change", function () {
             privacyRequired.style.display = "none";
+            newsletterSuccess.style.display = "none";
+            newsletterError.style.display = "none";
         });
         newsletterSubmit.addEventListener("click", function (e) {
             e.preventDefault();
@@ -842,6 +846,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             emailRequired.style.display = "none";
             privacyRequired.style.display = "none";
+            newsletterSuccess.style.display = "none";
+            newsletterError.style.display = "none";
 
             if (!privacyCheckbox.checked) {
                 isValid = false;
