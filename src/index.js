@@ -570,19 +570,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function playProgressBar(index) {
-        // If skipping to another video, fill the current one
-        if (progressBarTimelines[currentVideoIndex]) {
-            progressBarTimelines[currentVideoIndex].progress(1).pause(); // Fill the bar to 100%
-        }
-
-        // Reset the progress bar for the first element before restarting it
-        if (index === 0) {
-            progressBarTimelines[index].progress(0).pause();
-            resetProgressBars();
-        }
+        // Pause and reset all progress bars except the one at the current index
+        progressBarTimelines.forEach((timeline, i) => {
+            if (i === index) {
+                timeline.restart(); // Restart the timeline for the active progress bar
+            } else {
+                timeline.pause().progress(0); // Reset and pause other timelines
+            }
+        });
 
         currentVideoIndex = index;
-        progressBarTimelines[currentVideoIndex].restart();
     }
 
     const timerDisplay = document.querySelector(".videos-info-text");
