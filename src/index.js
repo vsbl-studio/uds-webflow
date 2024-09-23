@@ -205,37 +205,51 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    const trustedBySwiper = document.querySelector("#trusted-by-slider");
+    let trustedBySwiperInstance;
 
-    if (trustedBySwiper) {
-        const trustedBySwiperInstance = new Swiper(trustedBySwiper, {
-            slidesPerView: 6,
-            spaceBetween: 0,
-            loop: true,
-            speed: 4000,
-            centeredSlides: true,
-            autoplay: {
-                delay: 0,
-                disableOnInteraction: false,
-            },
-            breakpoints: {
-                320: {
-                    slidesPerView: 3,
+    function initTrustedBySwiper() {
+        const trustedBySwiper = document.querySelector("#trusted-by-slider");
+
+        if (trustedBySwiper) {
+            // Destroy the existing instance if it exists
+            if (trustedBySwiperInstance) {
+                trustedBySwiperInstance.destroy(true, true);
+            }
+
+            // Initialize a new instance
+            trustedBySwiperInstance = new Swiper(trustedBySwiper, {
+                slidesPerView: 6,
+                spaceBetween: 0,
+                loop: true,
+                speed: 4000,
+                centeredSlides: true,
+                autoplay: {
+                    delay: 0,
+                    disableOnInteraction: false,
                 },
-                768: {
-                    slidesPerView: 4,
+                breakpoints: {
+                    320: {
+                        slidesPerView: 3,
+                    },
+                    768: {
+                        slidesPerView: 4,
+                    },
+                    1280: {
+                        slidesPerView: 5,
+                        spaceBetween: 16,
+                    },
+                    1440: {
+                        slidesPerView: 6,
+                        spaceBetween: 20,
+                    },
                 },
-                1280: {
-                    slidesPerView: 5,
-                    spaceBetween: 16,
-                },
-                1440: {
-                    slidesPerView: 6,
-                    spaceBetween: 20,
-                },
-            },
-        });
+            });
+        }
     }
+
+    initTrustedBySwiper();
+
+    window.addEventListener("resize", initTrustedBySwiper);
 
     const overviewSwiper = document.querySelector(".js-overview-swiper");
 
@@ -333,8 +347,6 @@ document.addEventListener("DOMContentLoaded", function () {
             ...document.querySelectorAll(".js-accordion-header"),
         ];
 
-      
-
         if (accordions.length > 0) {
             accordions.forEach((item, index) => {
                 const content = item.parentElement.querySelector(
@@ -360,7 +372,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 item.onclick = () => {
-                    const isActive = item.classList.contains("is-active");                    
+                    const isActive = item.classList.contains("is-active");
 
                     if (isActive) {
                         content.style.height = "0px";
@@ -391,8 +403,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         iconPlus.style.display = "none";
                         iconMinus.style.display = "block";
                     }
-
-                    
                 };
             });
         }
@@ -496,7 +506,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
             });
         });
-        closedSlidesAnimation();
     }
 
     const overviewTableRows = document.querySelectorAll(".overview-table-row");
@@ -690,7 +699,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Initialize the video rotation
-    startVideoRotation();
+
+    const sectionVideos = document.querySelector(".section_videos");
+
+    if (sectionVideos) {
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        startVideoRotation();
+                        observer.unobserve(sectionVideos);
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+            }
+        );
+
+        observer.observe(sectionVideos);
+    }
 
     // Call toggleVideoBlockItem for each element
     elements.forEach((element) => toggleVideoBlockItem(element));
@@ -737,26 +765,49 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    let timelines = [];
+
     function closedSlidesAnimation() {
         const steps = document.querySelectorAll(".slides-item");
-        if (steps.length === 0 || window.innerWidth < 1024) return;
-        steps.forEach((step, index) => {
-            if (index === 0) return;
-            const previousOverlay = steps[index - 1].querySelector(
-                ".slides-item-overlay"
-            );
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: step,
-                    ease: "linear",
-                    scrub: 1,
-                    start: "top bottom",
-                    end: "top top",
-                },
+
+        // If the window width is less than 1024px, kill all timelines and reset overlays
+        if (window.innerWidth < 1024) {
+            timelines.forEach((tl) => tl.kill());
+            timelines = [];
+            steps.forEach((step) => {
+                const overlay = step.querySelector(".slides-item-overlay");
+                if (overlay) {
+                    overlay.style.opacity = 0;
+                }
             });
-            tl.to(previousOverlay, {
-                opacity: 0.2,
+            return;
+        }
+
+        timelines.forEach((tl) => tl.kill());
+        timelines = [];
+
+        if (steps.length) {
+            steps.forEach((step, index) => {
+                if (index === 0) return;
+                const previousOverlay = steps[index - 1].querySelector(
+                    ".slides-item-overlay"
+                );
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: step,
+                        ease: "linear",
+                        scrub: 1,
+                        start: "top bottom",
+                        end: "top top",
+                    },
+                });
+                tl.to(previousOverlay, {
+                    opacity: 0.2,
+                });
+                timelines.push(tl); // Store the timeline
             });
-        });
+        }
     }
+    closedSlidesAnimation();
+    window.addEventListener("resize", closedSlidesAnimation);
 });
