@@ -561,7 +561,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let intervalId;
     let startTime;
 
-    const elements = ["see", "perceive", "eliminate"];
+    const elements = ["detect", "engage", "command"];
     let currentIndex = 0;
 
     const progressBars = document.querySelectorAll(".video-progress-status");
