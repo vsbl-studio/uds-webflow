@@ -749,16 +749,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const megaMenuLinks = document.querySelectorAll(".products-menu-toggle");
     const megaMenu = document.querySelector(".products-mega-menu");
+    function closeMegaMenu() {
+        megaMenuLinks.forEach((b) => {
+            b.classList.remove("open");
+        });
+        megaMenu.classList.remove("open");
+        bodyEl.classList.remove("no-scroll");
+        lenis.start();
+    }
     megaMenuLinks.forEach((btn) => {
         btn.addEventListener("click", function (e) {
             e.preventDefault();
             if (this.classList.contains("open")) {
-                megaMenuLinks.forEach((b) => {
-                    b.classList.remove("open");
-                });
-                megaMenu.classList.remove("open");
-                bodyEl.classList.remove("no-scroll");
-                lenis.start();
+                closeMegaMenu();
             } else {
                 megaMenuLinks.forEach((b) => {
                     b.classList.add("open");
@@ -768,6 +771,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 lenis.stop();
             }
         });
+    });
+
+    // Close the mega menu when clicking outside of it
+    document.addEventListener("click", function (e) {
+        // If the click is not inside the mega menu or on the menu toggle button
+        if (
+            !megaMenu.contains(e.target) &&
+            !Array.from(megaMenuLinks).some((link) => link.contains(e.target))
+        ) {
+            if (megaMenu.classList.contains("open")) {
+                closeMegaMenu();
+            }
+        }
     });
 
     let timelines = [];
