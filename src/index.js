@@ -297,28 +297,36 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    const productConfigSwiper = document.querySelector(
-        ".js-product-config-swiper"
+    const productConfigSwipersWrappers = document.querySelectorAll(
+        ".product-config-swiper-wrapper"
     );
 
-    if (productConfigSwiper) {
-        const productConfigSlidesCount =
-            productConfigSwiper.querySelectorAll(".swiper-slide");
+    if (productConfigSwipersWrappers) {
+        productConfigSwipersWrappers.forEach((wrapper) => {
+            const productConfigSlidesCount =
+                wrapper.querySelectorAll(".swiper-slide");
 
-        if (productConfigSlidesCount.length > 0) {
-            const productConfigSwiperInstance = new Swiper(
-                productConfigSwiper,
-                {
+            if (productConfigSlidesCount.length > 0) {
+                const instanceWrapper = wrapper.querySelector(
+                    ".js-product-config-swiper"
+                );
+
+                const nextArrow = wrapper.querySelector(".swiper-config-next");
+                const prevArrow = wrapper.querySelector(".swiper-config-prev");
+                const progressBar = wrapper.querySelector(
+                    ".product-config-swiper-progress"
+                );
+                const configSwiperInstance = new Swiper(instanceWrapper, {
                     slidesPerView: 1.1,
                     loop: false,
                     centeredSlides: false,
                     spaceBetween: 8,
                     navigation: {
-                        nextEl: ".swiper-config-next",
-                        prevEl: ".swiper-config-prev",
+                        nextEl: nextArrow,
+                        prevEl: prevArrow,
                     },
                     scrollbar: {
-                        el: ".product-config-swiper-progress",
+                        el: progressBar,
                         draggable: true,
                         // type: "progressbar",
                     },
@@ -337,9 +345,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             spaceBetween: 20,
                         },
                     },
-                }
-            );
-        }
+                });
+            }
+        });
     }
 
     const accordionsInit = () => {
