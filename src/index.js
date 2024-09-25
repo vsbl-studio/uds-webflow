@@ -14,6 +14,8 @@ import {
 
 document.addEventListener("DOMContentLoaded", function () {
     Swiper.use([Navigation, Pagination, EffectFade, Autoplay, Scrollbar]);
+    gsap.registerPlugin(SplitText);
+    gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis();
 
@@ -24,10 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     requestAnimationFrame(raf);
 
-    gsap.registerPlugin(SplitText);
-    gsap.registerPlugin(ScrollTrigger);
-
     const revealTitles = document.querySelectorAll(".js-reveal-title");
+
     if (revealTitles) {
         revealTitles.forEach((title) => {
             const splitText = new SplitText(title, { type: "lines" });
@@ -485,7 +485,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const indicators = document.querySelectorAll(".scroll-item-indicator");
     const steps = document.querySelectorAll(".js-steps");
-    if (steps) {
+
+    if (steps.length) {
         steps.forEach((step, index) => {
             const line = step.querySelector(".scroll-item-line");
             const station = step.querySelector(".scroll-item-station");
@@ -522,6 +523,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const techSpecBlocks = document.querySelectorAll(
         ".tech-spec-content-block"
     );
+    const certificationListRows = document.querySelectorAll(
+        ".certification-list-item"
+    );
+
+    const topBorders = document.querySelectorAll(
+        ".js-animated-border.position-top"
+    );
 
     function growBorderToRight(rows) {
         rows.forEach((row) => {
@@ -532,7 +540,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     once: true,
                 },
                 onStart: () => {
-                    const borders = row.querySelectorAll(".js-animated-border");
+                    let borders;
+
+                    if (row.classList.contains("position-top")) {
+                        borders = [row];
+                    } else {
+                        borders = row.querySelectorAll(".js-animated-border");
+                    }
 
                     borders.forEach((border) => {
                         border.style.setProperty("width", "100%");
@@ -553,6 +567,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if (techSpecBlocks.length) {
         growBorderToRight(techSpecBlocks);
+    }
+
+    if (certificationListRows.length) {
+        growBorderToRight(certificationListRows);
+    }
+    console.log("topBorders", topBorders);
+    if (topBorders.length) {
+        growBorderToRight(topBorders);
     }
     const currentYear = new Date().getFullYear();
     $(`[data="year"]`).html(currentYear);
