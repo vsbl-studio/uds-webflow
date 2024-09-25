@@ -576,6 +576,39 @@ document.addEventListener("DOMContentLoaded", function () {
     if (topBorders.length) {
         growBorderToRight(topBorders);
     }
+
+    const teamFilterBtns = document.querySelectorAll(
+        ".team_members-filter-item"
+    );
+
+    if (teamFilterBtns.length) {
+        const members = document.querySelectorAll(".team_members-list-wrapper");
+
+        teamFilterBtns.forEach((filter) => {
+            filter.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                const ID = filter.getAttribute("id");
+
+                teamFilterBtns.forEach((btn) => {
+                    if (btn.getAttribute("id") === ID) {
+                        btn.classList.add("active");
+                    } else {
+                        btn.classList.remove("active");
+                    }
+                });
+
+                members.forEach((memb) => {
+                    if (memb.getAttribute("data-members") == ID) {
+                        memb.classList.add("active");
+                    } else {
+                        memb.classList.remove("active");
+                    }
+                });
+            });
+        });
+    }
+
     const currentYear = new Date().getFullYear();
     $(`[data="year"]`).html(currentYear);
 
