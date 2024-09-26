@@ -531,6 +531,8 @@ document.addEventListener("DOMContentLoaded", function () {
         ".js-animated-border.position-top"
     );
 
+    const teamFiltersRow = document.querySelectorAll(".team_members-filter");
+    const teammemberCards = document.querySelectorAll(".member-card-tablet");
     function growBorderToRight(rows) {
         rows.forEach((row) => {
             gsap.to(row, {
@@ -572,9 +574,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (certificationListRows.length) {
         growBorderToRight(certificationListRows);
     }
-    console.log("topBorders", topBorders);
     if (topBorders.length) {
         growBorderToRight(topBorders);
+    }
+    if (teamFiltersRow.length) {
+        growBorderToRight(teamFiltersRow);
+    }
+    if (teammemberCards.length) {
+        growBorderToRight(teammemberCards);
     }
 
     const teamFilterBtns = document.querySelectorAll(
