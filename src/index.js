@@ -129,6 +129,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // Reset the menu on page load and when navigating back
     window.addEventListener("pageshow", resetMenu);
 
+    const heroVideo = document.getElementById("hero-background-video");
+
+    // Safari autoplay fallback
+    heroVideo.play().catch(function () {
+        // Autoplay failed, possibly Safari: set muted to true and play again
+        heroVideo.muted = true;
+        heroVideo.play();
+    });
     // Get In Touch Modal Toggle
     const closeGetInTouchBtns = document.querySelectorAll(
         ".is-close-get-in-touch"
@@ -790,24 +798,53 @@ document.addEventListener("DOMContentLoaded", function () {
     // Call toggleVideoBlockItem for each element
     elements.forEach((element) => toggleVideoBlockItem(element));
 
-    let latitude = 45.254336;
-    let longitude = 30.204552;
+    // let latitude = 45.254336;
+    // let longitude = 30.204552;
 
-    const latEl = document.getElementById("latitude");
-    const longEl = document.getElementById("longitude");
-    function updateCoordinates() {
-        // Randomly change the coordinates slightly to simulate movement
-        latitude += (Math.random() - 0.5) * 0.0001;
-        longitude += (Math.random() - 0.5) * 0.0001;
+    // const latEl = document.getElementById("latitude");
+    // const longEl = document.getElementById("longitude");
+    // function updateCoordinates() {
+    //     // Randomly change the coordinates slightly to simulate movement
+    //     latitude += (Math.random() - 0.5) * 0.0001;
+    //     longitude += (Math.random() - 0.5) * 0.0001;
 
-        // Update the displayed coordinates
-        latEl.textContent = latitude.toFixed(6);
-        longEl.textContent = longitude.toFixed(6);
+    //     // Update the displayed coordinates
+    //     latEl.textContent = latitude.toFixed(6);
+    //     longEl.textContent = longitude.toFixed(6);
+    // }
+
+    // if (latEl && longEl) {
+    //     setInterval(updateCoordinates, 1000);
+    // }
+
+    // Initial UTM coordinates
+    let zoneNumber = 36;
+    let zoneLetter = "T";
+    let easting = 280563;
+    let northing = 5015062;
+
+    const utmEl = document.getElementById("utm-coordinates");
+
+    function updateUTMCoordinates() {
+        const eastingStep = (Math.random() - 0.5) * 10; // Random small steps to simulate movement
+        const northingStep = (Math.random() - 0.5) * 10; // Random small steps to simulate movement
+
+        // Update easting and northing values
+        easting += eastingStep;
+        northing += northingStep;
+
+        // Format and display the UTM coordinates
+        const formattedUTM = `${zoneNumber} ${zoneLetter} ${easting.toFixed(
+            0
+        )} ${northing.toFixed(0)}`;
+
+        if (utmEl) {
+            utmEl.textContent = `${formattedUTM}`;
+        }
     }
 
-    if (latEl && longEl) {
-        setInterval(updateCoordinates, 1000);
-    }
+    // Set the interval to update the UTM coordinates every second
+    setInterval(updateUTMCoordinates, 1000);
 
     const megaMenuLinks = document.querySelectorAll(".products-menu-toggle");
     const megaMenu = document.querySelector(".products-mega-menu");
