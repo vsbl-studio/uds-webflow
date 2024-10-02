@@ -132,11 +132,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const heroVideo = document.getElementById("hero-background-video");
 
     // Safari autoplay fallback
-    heroVideo.play().catch(function () {
-        // Autoplay failed, possibly Safari: set muted to true and play again
-        heroVideo.muted = true;
-        heroVideo.play();
-    });
+    if (heroVideo) {
+        heroVideo.play().catch(function () {
+            // Autoplay failed, possibly Safari: set muted to true and play again
+            heroVideo.muted = true;
+            heroVideo.play();
+        });
+    }
     // Get In Touch Modal Toggle
     const closeGetInTouchBtns = document.querySelectorAll(
         ".is-close-get-in-touch"
