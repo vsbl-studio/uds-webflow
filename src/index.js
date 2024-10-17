@@ -802,8 +802,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const videoId = video.getAttribute("id");
                 const targetId = `video-${element}`;
 
-                console.log(videoId, videoId === targetId);
-
                 if (videoId === targetId) {
                     if (video.style.display !== "block") {
                         video.style.display = "block";
