@@ -10,7 +10,6 @@ import {
     Autoplay,
     Scrollbar,
 } from "swiper/modules";
-// import "swiper/css";
 
 document.addEventListener("DOMContentLoaded", function () {
     Swiper.use([Navigation, Pagination, EffectFade, Autoplay, Scrollbar]);
@@ -439,10 +438,25 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 };
             });
+
+            // Recalculate the height of the active accordion on window resize
+            window.addEventListener("resize", () => {
+                accordions.forEach((item) => {
+                    const content = item.parentElement.querySelector(
+                        ".accordion-item_body"
+                    );
+                    if (item.classList.contains("is-active")) {
+                        content.style.height = "auto";
+                        const newHeight = content.clientHeight + "px";
+                        content.style.height = newHeight;
+                    }
+                });
+            });
         }
     };
 
     accordionsInit();
+
     const productVideoUrlContainer =
         document.querySelector(".product-video-url");
     const productVideoEl = document.querySelector(".product_bg-video");
