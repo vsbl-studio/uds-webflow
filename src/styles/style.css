@@ -239,6 +239,38 @@ input[type="submit"]:disabled + .icon-arrow {
     content: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M18 7L9.69231 17L6 13" stroke="black" stroke-width="1.5" stroke-linecap="square"/></svg>');
 }
 
+/* Cases & News */
+
+.blog-list-item_link:hover .blog-list-item_image {
+    transform: scale(1.2);
+}
+.blog-list_filter-button:hover span,
+.blog-list_filter-button.active span {
+    color: black;
+}
+.blog-list_filters
+    + .blog-list_wrapper
+    .blog-list_item:first-child
+    .blog-list-item_border-top {
+    display: none !important;
+}
+@media (min-width: 768px) {
+    .blog-list_filters
+        + .blog-list_wrapper
+        .blog-list_item:nth-child(2)
+        .blog-list-item_border-top {
+        display: none !important;
+    }
+}
+
+/* Rich Text Editor */
+.w-richtext-align-fullwidth {
+    max-width: 100% !important;
+}
+.w-richtext-align-fullwidth div,
+.w-richtext-align-fullwidth img {
+    width: 100%;
+}
 /* CookieYes Styles */
 .cky-consent-bar {
     background-color: #27443f !important;
@@ -367,8 +399,6 @@ input[type="submit"]:disabled + .icon-arrow {
 [data-cky-tag="detail-powered-by"] {
     display: none !important;
 }
-
-/*  */
 
 .cky-btn-close img {
     opacity: 0 !important;
