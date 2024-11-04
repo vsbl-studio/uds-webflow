@@ -10,6 +10,7 @@ import swipers from "./modules/swipers";
 import newsletterMailerlite from "./modules/newsletterMailerlite";
 import videos from "./modules/videos";
 import { setupLenis } from "./modules/lenisSetup";
+import news from "./modules/news";
 
 document.addEventListener("DOMContentLoaded", function () {
     gsap.registerPlugin(SplitText);
@@ -22,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     swipers();
     videos();
     accordion();
+    news();
     newsletterMailerlite();
     cookieYes();
 
@@ -239,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ".blog-list_filters-items-wrapper"
     );
 
-    const blogFilterButtons = blogFilterWrapper.querySelectorAll(
+    const blogFilterButtons = document.querySelectorAll(
         ".blog-list_filter-button"
     );
 
@@ -249,6 +251,25 @@ document.addEventListener("DOMContentLoaded", function () {
         blogFilterButtons.forEach((btn) => {
             btn.addEventListener("click", function () {
                 moveUnderline(blogFilterWrapper, btn);
+            });
+        });
+    }
+
+    // Team members Filter Active State management
+    // Filters are manipulated by Custom JS
+
+    const teamFilterWrapper = document.querySelector(".team_members-filter");
+
+    const teamFilterButtons = document.querySelectorAll(
+        ".team_members-filter-item"
+    );
+
+    if (teamFilterWrapper && teamFilterButtons.length) {
+        moveUnderline(teamFilterWrapper, teamFilterButtons[0]);
+
+        teamFilterButtons.forEach((btn) => {
+            btn.addEventListener("click", function () {
+                moveUnderline(teamFilterWrapper, btn);
             });
         });
     }
