@@ -133,13 +133,15 @@ export default function () {
 
     function closeGetInTouch(btn) {
         btn.addEventListener("click", function () {
+            if (
+                window.location.hash === "#get-in-touch" ||
+                window.location.hash === "#apply"
+            ) {
+                history.back(); // Go back in history to close modal
+            }
+
             // Store the current scroll position
             const scrollPosition = window.scrollY || window.pageYOffset;
-
-            // Listen for hash change
-            window.location.hash = "";
-            // Remove # symbol from URL
-            history.replaceState(null, null, " ");
 
             // Restore the scroll position after removing the hash
             window.scrollTo(0, scrollPosition);
@@ -149,10 +151,19 @@ export default function () {
         const getInTouchModal = document.querySelector(".modal_get-in-touch");
 
         if (getInTouchModal) {
-            if (
+            const isModalOpen =
                 window.location.hash === "#get-in-touch" ||
-                window.location.hash === "#apply"
-            ) {
+                window.location.hash === "#apply";
+
+            if (isModalOpen) {
+                history.replaceState(
+                    null,
+                    null,
+                    window.location.pathname +
+                        window.location.search +
+                        window.location.hash
+                );
+
                 getInTouchModal.classList.add("open");
                 bodyEl.classList.add("no-scroll");
                 lenis.stop();
@@ -170,6 +181,33 @@ export default function () {
                 }
             }
         }
+    }
+
+    function openModalHash(hash) {
+        if (window.location.hash !== hash) {
+            history.pushState(null, null, hash); // Add hash to URL
+        }
+        getInTouchVisibility();
+    }
+
+    const anchorsWithHash = document.querySelectorAll('a[href^="#"]');
+
+    if (anchorsWithHash.length) {
+        anchorsWithHash.forEach((anchor) => {
+            anchor.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                const targetId = anchor.getAttribute("href");
+
+                if (targetId === "#get-in-touch") {
+                    openModalHash(targetId);
+                }
+
+                if (targetId === "#apply") {
+                    openModalHash(targetId);
+                }
+            });
+        });
     }
 
     window.addEventListener("load", getInTouchVisibility);

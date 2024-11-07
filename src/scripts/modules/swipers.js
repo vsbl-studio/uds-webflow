@@ -85,12 +85,12 @@ export default function () {
             spaceBetween: 8,
             loop: false,
             centeredSlides: false,
-            pagination: {
+            scrollbar: {
                 el: ".overview-swiper-progress",
-                type: "progressbar",
+                draggable: true,
             },
 
-            speed: 500,
+            speed: 250,
             breakpoints: {
                 576: {
                     slidesPerView: 1.2,
@@ -109,6 +109,7 @@ export default function () {
                     spaceBetween: 0,
                     centeredSlides: true,
                     loop: true,
+                    speed: 500,
                     navigation: {
                         nextEl: ".swiper-overview-next",
                         prevEl: ".swiper-overview-prev",
@@ -154,9 +155,8 @@ export default function () {
                     scrollbar: {
                         el: progressBar,
                         draggable: true,
-                        // type: "progressbar",
                     },
-                    speed: 500,
+                    speed: 250,
                     breakpoints: {
                         576: {
                             slidesPerView: 1.3,
@@ -167,6 +167,7 @@ export default function () {
                             spaceBetween: 20,
                         },
                         992: {
+                            speed: 500,
                             slidesPerView: 3.1,
                             spaceBetween: 20,
                         },
