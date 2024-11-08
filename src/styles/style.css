@@ -311,7 +311,7 @@ input[type="submit"]:disabled + .icon-arrow {
     height: 1px;
     width: 100%;
     bottom: 0;
-    transition: 1s ease;
+    transition: 0.25s ease;
     left: 0%;
     background-color: var(--base-color-brand--sand-200);
 }
@@ -335,7 +335,7 @@ input[type="submit"]:disabled + .icon-arrow {
     height: 1px;
     width: 0;
     bottom: 0;
-    transition: 1s ease;
+    transition: 0.25s ease;
     right: 0%;
     background-color: var(--base-color-brand--sand-200);
 }

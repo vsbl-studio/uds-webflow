@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setupLenis();
     heroVideo();
     navigation();
-    // button();
+    button();
     swipers();
     videos();
     team();

@@ -1,56 +1,89 @@
 import gsap from "gsap";
 
 export default function () {
-    // const buttonHovers = document.querySelectorAll(".button");
+    const buttonHovers = document.querySelectorAll(".button");
 
     if (buttonHovers.length) {
         buttonHovers.forEach((btn) => {
-            const wrapperDiv = document.createElement("div");
+            const textWrapper = btn.querySelector("div");
 
-            wrapperDiv.style.overflow = "hidden";
-            wrapperDiv.style.height = btn.clientHeight + "px";
-            // Clone the button to make a second copy
-            const clonedBtn = btn.cloneNode(true);
+            if (textWrapper) {
+                const wrapperDiv = document.createElement("div");
 
-            // Append the original button and the cloned button to the div
-            wrapperDiv.appendChild(btn.cloneNode(true)); // Append original button
-            wrapperDiv.appendChild(clonedBtn); // Append cloned button
+                wrapperDiv.style.overflow = "hidden";
+                wrapperDiv.style.height = textWrapper.clientHeight + "px";
+                wrapperDiv.style.width = textWrapper.clientWidth + "px";
 
-            // Replace the original button in the DOM with the new div
-            btn.replaceWith(wrapperDiv);
+                // Clone the original text to make a second copy
+                const clonedBtn = textWrapper.cloneNode(true);
 
-            wrapperDiv.addEventListener("mouseenter", function () {
-                const lines = wrapperDiv.querySelectorAll(".button");
+                // Append the original and cloned text to the wrapper div
+                wrapperDiv.appendChild(textWrapper);
+                wrapperDiv.appendChild(clonedBtn);
 
-                // Animate the first button out of view (push up)
-                gsap.to(lines[0], {
-                    y: -parseInt(wrapperDiv.clientHeight), // Move up by the button's height
-                    duration: 0.5,
-                    ease: "power2.out",
+                // Replace the original textWrapper with the wrapper div
+                btn.appendChild(wrapperDiv);
+
+                if (btn.classList.contains("is-icon")) {
+                    wrapperDiv.style.display = "flex";
+                    textWrapper.style.transform = `translateX(${-textWrapper.clientWidth}px)`;
+                    clonedBtn.style.transform = `translateX(${-textWrapper.clientWidth}px)`;
+                } else {
+                    clonedBtn.style.transform = `translateY(${textWrapper.clientHeight}px)`;
+                    textWrapper.style.whiteSpace = "nowrap";
+                    clonedBtn.style.whiteSpace = "nowrap";
+                }
+
+                // Add hover animations
+                btn.addEventListener("mouseenter", function () {
+                    const lines = wrapperDiv.querySelectorAll("div");
+
+                    // Animate the original text out of view (push up)
+                    gsap.to(lines[0], {
+                        y: !btn.classList.contains("is-icon")
+                            ? -textWrapper.clientHeight
+                            : "",
+                        x: btn.classList.contains("is-icon") ? 0 : "",
+                        duration: 0.5,
+                        ease: "power2.out",
+                    });
+
+                    // Animate the cloned text to the visible position
+                    gsap.to(lines[1], {
+                        y: !btn.classList.contains("is-icon")
+                            ? -textWrapper.clientHeight
+                            : "",
+                        x: btn.classList.contains("is-icon")
+                            ? textWrapper.clientWidth
+                            : "",
+                        duration: 0.5,
+                        ease: "power2.out",
+                    });
                 });
 
-                gsap.to(lines[1], {
-                    y: -parseInt(wrapperDiv.clientHeight), // Move to the initial position (from below)
-                    duration: 0.5,
-                    ease: "power2.out",
-                });
-            });
+                btn.addEventListener("mouseleave", function () {
+                    const lines = wrapperDiv.querySelectorAll("div");
 
-            wrapperDiv.addEventListener("mouseleave", function () {
-                const lines = wrapperDiv.querySelectorAll(".button");
+                    // Reset both elements to their original positions
+                    gsap.to(lines[0], {
+                        y: !btn.classList.contains("is-icon") ? 0 : "",
+                        x: btn.classList.contains("is-icon")
+                            ? -textWrapper.clientWidth
+                            : "",
+                        duration: 0.5,
+                        ease: "power2.out",
+                    });
 
-                // Reset both elements back to their original positions
-                gsap.to(lines[0], {
-                    y: 0, // Reset the original button
-                    duration: 0.5,
-                    ease: "power2.out",
+                    gsap.to(lines[1], {
+                        y: !btn.classList.contains("is-icon") ? 0 : "",
+                        x: btn.classList.contains("is-icon")
+                            ? -textWrapper.clientWidth
+                            : "",
+                        duration: 0.5,
+                        ease: "power2.out",
+                    });
                 });
-                gsap.to(lines[1], {
-                    y: btn.clientHeight, // Move the cloned button down
-                    duration: 0.5,
-                    ease: "power2.out",
-                });
-            });
+            }
         });
     }
 }
