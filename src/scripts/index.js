@@ -7,8 +7,10 @@ import accordion from "./modules/accordion";
 import navigation from "./modules/navigation";
 import heroVideo from "./modules/heroVideo";
 import swipers from "./modules/swipers";
+import team from "./modules/team";
 import newsletterMailerlite from "./modules/newsletterMailerlite";
 import videos from "./modules/videos";
+import button from "./modules/button";
 import { setupLenis } from "./modules/lenisSetup";
 import news from "./modules/news";
 
@@ -20,8 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
     setupLenis();
     heroVideo();
     navigation();
+    // button();
     swipers();
     videos();
+    team();
     accordion();
     news();
     newsletterMailerlite();
@@ -294,4 +298,18 @@ document.addEventListener("DOMContentLoaded", function () {
         underline.style.width = `${buttonRect.width}px`;
         underline.style.transform = `translateX(${leftOffset}px)`;
     }
+
+    setTimeout(() => {
+        const selectItems = document.querySelectorAll(
+            ".custom-select-dropdown-link"
+        );
+        const selectionPlace = document.querySelector(".custom-select-text");
+        if (selectItems.length && selectionPlace) {
+            selectItems.forEach((btn) => {
+                btn.addEventListener("click", function () {
+                    selectionPlace.style.color = "#000";
+                });
+            });
+        }
+    }, 500);
 });

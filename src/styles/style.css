@@ -7,6 +7,7 @@ body {
 body.no-scroll {
     overflow: hidden !important;
 }
+
 .nav_scroll {
     transform: translateY(-150px);
     transition: 1s ease;
@@ -101,6 +102,11 @@ body.no-scroll {
 .swiper-wrapper {
     transition-timing-function: linear;
 }
+.overview-navigation,
+.swiper-overview-prev,
+.swiper-overview-next {
+    cursor: none !important;
+}
 .swiper-slide .testimonials-slide {
     height: fit-content !important;
     opacity: 0 !important;
@@ -147,6 +153,13 @@ body.no-scroll {
     background: black;
     border-radius: 0;
 }
+.js-follow-arrow {
+    position: absolute !important;
+    opacity: 0;
+    z-index: 10; /* Keep buttons on top */
+    pointer-events: none; /* Prevent buttons from interfering with cursor movement */
+}
+
 @media (max-width: 992px) {
     .js-testimonials-swiper {
         padding-bottom: 6.25vw !important;
@@ -193,6 +206,18 @@ body.no-scroll {
     .scroll-item-product:hover .product-image {
         transform: scale(1.1);
     }
+
+    .mega-menu-column.last-child.image-bg {
+        background-size: 100%;
+        transition: background-size 0.5s ease;
+    }
+    .mega-menu-column.last-child.image-bg:hover {
+        background-size: 110%;
+    }
+
+    .mega-menu-column.last-child.image-bg:hover .button {
+        border-color: #b8fcbf;
+    }
 }
 .products-menu-toggle.open .nav-menu-link {
     border-color: #fff;
@@ -215,9 +240,21 @@ input[type="submit"]:disabled + .icon-arrow {
 .member-name:hover + .member-info-wrapper {
     display: flex;
 }
-
+.hero-foot-cta:hover .button {
+    background-color: #c6ffcd;
+}
 /* Forms */
-
+.form_checkbox-icon {
+    transition: border-color 0.25s ease;
+}
+.form_checkbox:hover .form_checkbox-icon:not(.w--redirected-checked) {
+    border-color: black;
+}
+.newsletter-form-wrapper
+    + .form_checkbox:hover
+    .form_checkbox-icon:not(.w--redirected-checked) {
+    border-color: #97f0a1;
+}
 .custom-select-dropdown-link.w--current {
     position: relative;
     background-color: var(--base-color-brand--sand-200);

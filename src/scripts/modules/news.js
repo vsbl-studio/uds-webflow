@@ -9,6 +9,7 @@ export default function () {
 
                     if (url.trim().length) {
                         post.setAttribute("href", url);
+                        post.setAttribute("target", "_blank");
                     }
                 });
             }

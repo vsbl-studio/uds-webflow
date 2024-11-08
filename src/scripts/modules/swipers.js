@@ -7,6 +7,8 @@ import {
     Scrollbar,
 } from "swiper/modules";
 
+import gsap from "gsap";
+import { lenis } from "./lenisSetup";
 export default function () {
     Swiper.use([Navigation, Pagination, EffectFade, Autoplay, Scrollbar]);
 
@@ -121,6 +123,50 @@ export default function () {
                     },
                 },
             },
+        });
+
+        const arrow = document.querySelector(".js-follow-arrow");
+
+        const navigation = document.querySelector(".overview-navigation");
+        // Add hover effect to follow cursor
+        navigation.addEventListener("mousemove", (e) => {
+            const rect = overviewSwiper.getBoundingClientRect();
+            const swiperCenterX = rect.left + rect.width / 2;
+            const isLeftSide = e.clientX <= swiperCenterX;
+
+            // Calculate target position for arrow
+            const targetX = e.clientX - rect.left - arrow.offsetWidth / 2;
+            const targetY = e.clientY - rect.top - arrow.offsetHeight;
+
+            // Position the arrow near the cursor
+            gsap.to(arrow, {
+                x: targetX,
+                y: targetY,
+                duration: 0.3,
+                ease: "power2.out",
+            });
+
+            // Rotate arrow if it's on the right side
+            gsap.to(arrow, {
+                rotation: isLeftSide ? 0 : 180, // 0 degrees for left, 180 degrees for right
+                duration: 0.3,
+                ease: "power2.out",
+            });
+
+            // Ensure the arrow is visible
+            gsap.to(arrow, {
+                opacity: 1,
+                duration: 0.3,
+                ease: "power2.out",
+            });
+        });
+
+        navigation.addEventListener("mouseleave", () => {
+            gsap.to(arrow, {
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.out",
+            });
         });
     }
 
