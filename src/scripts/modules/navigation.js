@@ -50,15 +50,11 @@ export default function () {
             const isChecked = this.checked;
             if (isChecked) {
                 burgerMenuScreen.classList.add("open");
-                navbarScroll.forEach((nav) => {
-                    nav.classList.add("visible");
-                });
+
                 bodyEl.classList.add("no-scroll");
             } else {
                 burgerMenuScreen.classList.remove("open");
-                navbarScroll.forEach((nav) => {
-                    nav.classList.remove("visible");
-                });
+
                 bodyEl.classList.remove("no-scroll");
             }
             burgerCheckboxes.forEach((cb) => {

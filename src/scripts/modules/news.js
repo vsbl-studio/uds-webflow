@@ -1,3 +1,4 @@
+import gsap from "gsap";
 export default function () {
     const mutationsObserver = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
@@ -12,6 +13,17 @@ export default function () {
                         post.setAttribute("target", "_blank");
                     }
                 });
+            }
+
+            const pagination = document.querySelector(".pagination");
+            const paginationItems = document.querySelectorAll(
+                ".button.is-pagination"
+            );
+
+            if (paginationItems.length === 1) {
+                pagination.style.opacity = "0";
+            } else {
+                pagination.style.opacity = "1";
             }
         });
     });

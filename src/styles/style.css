@@ -275,8 +275,29 @@ input[type="submit"]:disabled + .icon-arrow {
 
 /* Cases & News */
 
-.blog-list-item_link:hover .blog-list-item_image {
-    transform: scale(1.2);
+@media (pointer: fine) {
+    .blog-list-item_image {
+        transform-origin: bottom left;
+    }
+    .blog-list-item_read-more {
+        transform: translateY(100%);
+    }
+    .blog-list-item_link:hover .blog-list-item_image {
+        transform: scale(1.1);
+    }
+
+    .blog-list-item_link:hover .blog-list-item_read-more {
+        transform: translateY(0);
+    }
+    .position_list-item-arrow {
+        transform: translateX(-100%);
+    }
+    .positions_list-item-link:hover .position_list-item-arrow {
+        transform: translateX(0);
+    }
+    .scroll-item-product:hover .product-link-icon {
+        transform: translateX(100%);
+    }
 }
 .blog-list_filter-button:hover span,
 .blog-list_filter-button.active span {
