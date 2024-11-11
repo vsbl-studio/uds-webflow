@@ -108,7 +108,7 @@ export default function () {
                 },
                 992: {
                     slidesPerView: 1,
-                    spaceBetween: 0,
+                    spaceBetween: 1,
                     centeredSlides: true,
                     loop: true,
                     speed: 500,

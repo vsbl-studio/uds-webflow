@@ -1,4 +1,3 @@
-import gsap from "gsap";
 export default function () {
     const mutationsObserver = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {

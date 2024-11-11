@@ -31,31 +31,31 @@ document.addEventListener("DOMContentLoaded", function () {
     newsletterMailerlite();
     cookieYes();
 
-    const revealTitles = document.querySelectorAll(".js-reveal-title");
+    // const revealTitles = document.querySelectorAll(".js-reveal-title");
 
-    if (revealTitles) {
-        revealTitles.forEach((title) => {
-            const splitText = new SplitText(title, { type: "lines" });
+    // if (revealTitles) {
+    //     revealTitles.forEach((title) => {
+    //         const splitText = new SplitText(title, { type: "lines" });
 
-            splitText.lines.forEach((line) => {
-                const lineWrapper = document.createElement("div");
-                lineWrapper.style.overflow = "hidden";
-                line.parentNode.insertBefore(lineWrapper, line);
-                lineWrapper.appendChild(line);
-            });
-            gsap.from(splitText.lines, {
-                y: 75,
-                duration: 1,
-                stagger: 0.3,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: title,
-                    start: "top 80%",
-                    toggleActions: "play none none none",
-                },
-            });
-        });
-    }
+    //         splitText.lines.forEach((line) => {
+    //             const lineWrapper = document.createElement("div");
+    //             lineWrapper.style.overflow = "hidden";
+    //             line.parentNode.insertBefore(lineWrapper, line);
+    //             lineWrapper.appendChild(line);
+    //         });
+    //         gsap.from(splitText.lines, {
+    //             y: 75,
+    //             duration: 1,
+    //             stagger: 0.3,
+    //             ease: "power2.out",
+    //             scrollTrigger: {
+    //                 trigger: title,
+    //                 start: "top 80%",
+    //                 toggleActions: "play none none none",
+    //             },
+    //         });
+    //     });
+    // }
 
     const indicators = document.querySelectorAll(".scroll-item-indicator");
     const steps = document.querySelectorAll(".js-steps");
