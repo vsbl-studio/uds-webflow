@@ -27,6 +27,9 @@ body.no-scroll {
 .nav_fixed {
     transition: 1s ease;
 }
+.nav_fixed .button.is-secondary:hover {
+    border-color: #fff;
+}
 .nav_fixed.hidden {
     transform: translateY(-150px);
 }
