@@ -6,7 +6,6 @@ export default function () {
 
     if (buttonHovers.length && !isMobile.any()) {
         buttonHovers.forEach((btn) => {
-            console.log(!btn.classList.contains(".js-disabled-hover"));
             if (!btn.classList.contains(".js-disabled-hover")) {
                 const textWrapper = btn.querySelector("div");
 

@@ -30,6 +30,10 @@ body.no-scroll {
 .nav_fixed .button.is-secondary:hover {
     border-color: #fff;
 }
+
+.nav_right.dark-child-button .button.is-secondary:hover:hover {
+    border-color: #000;
+}
 .nav_fixed.hidden {
     transform: translateY(-150px);
 }
