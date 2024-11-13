@@ -312,4 +312,24 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }, 500);
+
+    const privacyPolicyLabelWrapper = document.querySelectorAll(
+        ".privacy-policy-checkbox"
+    );
+    if (privacyPolicyLabelWrapper.length) {
+        privacyPolicyLabelWrapper.forEach((pp) => {
+            const privacyPolicyCheckbox = pp.querySelector("#Privacy-Policy");
+
+            const privacyPolicyErrorMsg = pp.querySelector(
+                ".form_privacy-error"
+            );
+            if (privacyPolicyCheckbox) {
+                privacyPolicyCheckbox.addEventListener("change", function () {
+                    if (this.checked) {
+                        privacyPolicyErrorMsg.style.display = "none";
+                    }
+                });
+            }
+        });
+    }
 });
