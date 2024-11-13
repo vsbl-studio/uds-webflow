@@ -133,13 +133,16 @@ export default function () {
                 window.location.hash === "#get-in-touch" ||
                 window.location.hash === "#apply"
             ) {
-                if (history.length > 1) {
+                if (
+                    history.length > 1 &&
+                    document.referrer.startsWith(window.location.origin)
+                ) {
                     history.back(); // Go back in history to close modal
                 } else {
                     // Remove the hash without reloading the page
                     history.replaceState(
                         null,
-                        document.title,
+                        null,
                         window.location.pathname + window.location.search
                     );
                     getInTouchVisibility();
