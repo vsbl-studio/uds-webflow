@@ -1,13 +1,13 @@
 @import "../../node_modules/overlayscrollbars/styles/overlayscrollbars.css";
 @import "./scrollbars.css";
 
-[data-overlayscrollbars] {
+.modal_get-in-touch [data-overlayscrollbars] {
     position: static !important;
 }
-.js-scrollbar {
+.modal_get-in-touch .js-scrollbar {
     position: static !important;
 }
-[data-overlayscrollbars-viewport] {
+.modal_get-in-touch [data-overlayscrollbars-viewport] {
     position: static !important;
 }
 html {
@@ -118,6 +118,16 @@ body.no-scroll {
 .products-menu-toggle.open svg {
     transform: rotate(180deg);
 }
+
+.modal_get-in-touch {
+    height: 100dvh !important;
+}
+.videos-info-text-code-wrapper span,
+.videos-info-text {
+    -webkit-touch-callout: none !important;
+    border: none !important;
+}
+
 .swiper-wrapper {
     transition-timing-function: linear;
 }

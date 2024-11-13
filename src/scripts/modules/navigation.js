@@ -133,7 +133,17 @@ export default function () {
                 window.location.hash === "#get-in-touch" ||
                 window.location.hash === "#apply"
             ) {
-                history.back(); // Go back in history to close modal
+                if (history.length > 1) {
+                    history.back(); // Go back in history to close modal
+                } else {
+                    // Remove the hash without reloading the page
+                    history.replaceState(
+                        null,
+                        document.title,
+                        window.location.pathname + window.location.search
+                    );
+                    getInTouchVisibility();
+                }
             }
 
             // Store the current scroll position
