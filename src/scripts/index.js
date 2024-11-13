@@ -13,7 +13,7 @@ import videos from "./modules/videos";
 import button from "./modules/button";
 import { setupLenis } from "./modules/lenisSetup";
 import news from "./modules/news";
-
+import scrollbars from "./modules/scrollbars";
 document.addEventListener("DOMContentLoaded", function () {
     gsap.registerPlugin(SplitText);
     gsap.registerPlugin(ScrollTrigger);
@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     team();
     accordion();
     news();
+    scrollbars();
     newsletterMailerlite();
     cookieYes();
 

@@ -14,6 +14,7 @@
     "dependencies": {
         "gsap": "file:gsap-bonus.tgz",
         "lenis": "^1.1.13",
+        "overlayscrollbars": "^2.10.0",
         "swiper": "^11.1.14"
     },
     "devDependencies": {

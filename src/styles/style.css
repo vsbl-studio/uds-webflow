@@ -1,3 +1,15 @@
+@import "../../node_modules/overlayscrollbars/styles/overlayscrollbars.css";
+@import "./scrollbars.css";
+
+[data-overlayscrollbars] {
+    position: static !important;
+}
+.js-scrollbar {
+    position: static !important;
+}
+[data-overlayscrollbars-viewport] {
+    position: static !important;
+}
 html {
     height: auto;
 }
