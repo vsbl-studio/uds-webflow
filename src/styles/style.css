@@ -265,10 +265,6 @@ input[type="submit"]:disabled + .icon-arrow {
 #Contact-Form-Topic + .custom-select-dropdown-link {
     display: none !important;
 }
-
-.team_members-list-item:hover .member-info-wrapper {
-    display: flex;
-}
 .hero-foot-cta:hover .button {
     background-color: #c6ffcd;
 }

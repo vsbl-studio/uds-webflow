@@ -7,7 +7,6 @@ import accordion from "./modules/accordion";
 import navigation from "./modules/navigation";
 import heroVideo from "./modules/heroVideo";
 import swipers from "./modules/swipers";
-import team from "./modules/team";
 import newsletterMailerlite from "./modules/newsletterMailerlite";
 import videos from "./modules/videos";
 import button from "./modules/button";
@@ -25,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     button();
     swipers();
     videos();
-    team();
+
     accordion();
     news();
     scrollbars();
