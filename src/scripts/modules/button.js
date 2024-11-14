@@ -3,23 +3,20 @@ import { isMobile } from "../utils/isMobile";
 
 export default function () {
     const buttonHovers = document.querySelectorAll(".button");
+    const linkButtons = document.querySelectorAll(".link-button.with-arrow");
 
-    if (buttonHovers.length && !isMobile.any()) {
-        buttonHovers.forEach((btn) => {
-            if (!btn.classList.contains(".js-disabled-hover")) {
-                const textWrapper = btn.querySelector("div");
+    function setupButtonHoverEffects() {
+        if (buttonHovers.length && !isMobile.any()) {
+            buttonHovers.forEach((btn) => {
+                if (!btn.classList.contains("js-disabled-hover")) {
+                    const textWrapper = btn.querySelector("div");
 
-                if (textWrapper) {
-                    const wrapperDiv = document.createElement("div");
+                    if (textWrapper) {
+                        const wrapperDiv = document.createElement("div");
 
-                    requestAnimationFrame(() => {
-                        const height = textWrapper.clientHeight || 26; // Fallback height
-                        const width = textWrapper.clientWidth || "fit-content"; // Fallback width
-
-                        wrapperDiv.style.overflow = "hidden";
-                        wrapperDiv.style.height = height + "px";
-                        wrapperDiv.style.width =
-                            width === "fit-content" ? width : width + "px";
+                        // Reset previous wrapper if exists
+                        btn.innerHTML = "";
+                        btn.appendChild(wrapperDiv);
 
                         // Clone the original text to make a second copy
                         const clonedBtn = textWrapper.cloneNode(true);
@@ -28,24 +25,33 @@ export default function () {
                         wrapperDiv.appendChild(textWrapper);
                         wrapperDiv.appendChild(clonedBtn);
 
-                        // Replace the original textWrapper with the wrapper div
-                        btn.appendChild(wrapperDiv);
+                        const updateDimensions = () => {
+                            const height = textWrapper.clientHeight;
+                            const width = textWrapper.clientWidth;
 
-                        if (btn.classList.contains("is-icon")) {
-                            wrapperDiv.style.display = "flex";
-                            textWrapper.style.transform = `translateX(${-textWrapper.clientWidth}px)`;
-                            clonedBtn.style.transform = `translateX(${-textWrapper.clientWidth}px)`;
-                        } else {
-                            clonedBtn.style.transform = `translateY(${textWrapper.clientHeight}px)`;
-                            textWrapper.style.whiteSpace = "nowrap";
-                            clonedBtn.style.whiteSpace = "nowrap";
-                        }
+                            wrapperDiv.style.overflow = "hidden";
+                            wrapperDiv.style.height = height + "px";
+                            wrapperDiv.style.width = width + "px";
+
+                            if (btn.classList.contains("is-icon")) {
+                                wrapperDiv.style.display = "flex";
+                                textWrapper.style.transform = `translateX(${-textWrapper.clientWidth}px)`;
+                                clonedBtn.style.transform = `translateX(${-textWrapper.clientWidth}px)`;
+                            } else {
+                                clonedBtn.style.transform = `translateY(${textWrapper.clientHeight}px)`;
+                                wrapperDiv.style.minWidth = "fit-content";
+                                textWrapper.style.whiteSpace = "nowrap";
+                                clonedBtn.style.whiteSpace = "nowrap";
+                            }
+                        };
+
+                        // Update dimensions on page load
+                        updateDimensions();
 
                         // Add hover animations
                         btn.addEventListener("mouseenter", function () {
                             const lines = wrapperDiv.querySelectorAll("div");
 
-                            // Animate the original text out of view (push up)
                             gsap.to(lines[0], {
                                 y: !btn.classList.contains("is-icon")
                                     ? -textWrapper.clientHeight
@@ -55,7 +61,6 @@ export default function () {
                                 ease: "power2.out",
                             });
 
-                            // Animate the cloned text to the visible position
                             gsap.to(lines[1], {
                                 y: !btn.classList.contains("is-icon")
                                     ? -textWrapper.clientHeight
@@ -71,7 +76,6 @@ export default function () {
                         btn.addEventListener("mouseleave", function () {
                             const lines = wrapperDiv.querySelectorAll("div");
 
-                            // Reset both elements to their original positions
                             gsap.to(lines[0], {
                                 y: !btn.classList.contains("is-icon") ? 0 : "",
                                 x: btn.classList.contains("is-icon")
@@ -90,42 +94,53 @@ export default function () {
                                 ease: "power2.out",
                             });
                         });
-                    });
+
+                        // Recalculate dimensions on resize
+                        window.addEventListener("resize", updateDimensions);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
-    const linkButtons = document.querySelectorAll(".link-button.with-arrow");
+    function setupLinkButtonHoverEffects() {
+        if (linkButtons.length && !isMobile.any()) {
+            linkButtons.forEach((btn) => {
+                const wrapper = btn.querySelector(".link-button-inner-wrapper");
+                const text = btn.querySelector(".link-button-text");
+                const arrow = btn.querySelector(".link-icon");
 
-    if (linkButtons.length && !isMobile.any()) {
-        linkButtons.forEach((btn) => {
-            const wrapper = btn.querySelector(".link-button-inner-wrapper");
-            const text = btn.querySelector(".link-button-text");
-            const arrow = btn.querySelector(".link-icon");
+                const updateButtonWidth = () => {
+                    const style = getComputedStyle(wrapper);
+                    const gap = parseInt(style.gap.replace("px", ""));
 
-            const style = getComputedStyle(wrapper);
-            const gap = style.gap;
+                    const initialTranslate = -arrow.clientWidth - gap;
+                    btn.style.width =
+                        text.clientWidth + arrow.clientWidth + gap * 2 + "px";
+                    btn.style.overflow = "hidden";
+                    wrapper.style.whiteSpace = "nowrap";
 
-            const initialTranslate =
-                -arrow.clientWidth - parseInt(gap.replace("px", ""));
-            btn.style.width =
-                text.clientWidth +
-                arrow.clientWidth +
-                parseInt(gap.replace("px", "") * 2) +
-                "px";
-            btn.style.overflow = "hidden";
-            wrapper.style.whiteSpace = "nowrap";
+                    wrapper.style.transform = `translateX(${initialTranslate}px)`;
 
-            wrapper.style.transform = `translateX(${initialTranslate}px)`;
+                    btn.addEventListener("mouseenter", function () {
+                        wrapper.style.transform = "translateX(0)";
+                    });
 
-            btn.addEventListener("mouseenter", function () {
-                wrapper.style.transform = "translateX(0)";
+                    btn.addEventListener("mouseleave", function () {
+                        wrapper.style.transform = `translateX(${initialTranslate}px)`;
+                    });
+                };
+
+                // Initial setup
+                updateButtonWidth();
+
+                // Update dimensions on resize
+                window.addEventListener("resize", updateButtonWidth);
             });
-
-            btn.addEventListener("mouseleave", function () {
-                wrapper.style.transform = `translateX(${initialTranslate}px)`;
-            });
-        });
+        }
     }
+
+    // Initialize hover effects
+    setupButtonHoverEffects();
+    setupLinkButtonHoverEffects();
 }
