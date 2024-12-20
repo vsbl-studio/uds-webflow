@@ -332,4 +332,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    const positionTitle = document.getElementById("js-position-title");
+
+    const positionHiddenInput = document.getElementById("PositionTitle");
+
+    if (positionTitle && positionHiddenInput) {
+        setTimeout(() => {
+            positionHiddenInput.value = positionTitle.innerText;
+        }, 1000);
+    }
 });
