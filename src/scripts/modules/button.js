@@ -5,37 +5,6 @@ export default function () {
     const buttonHovers = document.querySelectorAll(".button");
     const linkButtons = document.querySelectorAll(".link-button.with-arrow");
 
-    const targetForm = document.querySelector(
-        ".form_message-success.contact-us_success"
-    );
-
-    if (targetForm) {
-        // Triggered when the form is submitted successfully
-        const observer = new MutationObserver((mutationsList) => {
-            for (const mutation of mutationsList) {
-                if (
-                    mutation.type === "attributes" &&
-                    mutation.attributeName === "class"
-                ) {
-                    // Check if the 'w-form-done' class is present
-                    if (targetForm.classList.contains("w-form-done")) {
-                        updateDimensions();
-                    }
-                }
-            }
-        });
-
-        // Observer configuration
-        const config = {
-            attributes: true,
-            childList: false,
-            subtree: false,
-        };
-
-        // Start observing the target element
-        observer.observe(targetForm, config);
-    }
-
     function setupButtonHoverEffects() {
         if (buttonHovers.length && !isMobile.any()) {
             buttonHovers.forEach((btn) => {
@@ -57,7 +26,6 @@ export default function () {
                         wrapperDiv.appendChild(clonedBtn);
 
                         const updateDimensions = () => {
-                            console.log("updateDimensions");
                             const height = textWrapper.clientHeight;
                             const width = textWrapper.clientWidth;
 
@@ -126,6 +94,46 @@ export default function () {
                                 ease: "power2.out",
                             });
                         });
+
+                        const targetForm = document.querySelector(
+                            ".form_message-success.contact-us_success"
+                        );
+
+                        if (targetForm) {
+                            // Triggered when the form is submitted successfully
+                            const observer = new MutationObserver(
+                                (mutationsList) => {
+                                    for (const mutation of mutationsList) {
+                                        console.log(mutation);
+                                        if (mutation.type === "attributes") {
+                                            console.log(
+                                                "Class attribute changed"
+                                            );
+                                            // Check if the 'w-form-done' class is present
+                                            if (
+                                                targetForm.classList.contains(
+                                                    "w-form-done"
+                                                )
+                                            ) {
+                                                setTimeout(() => {
+                                                    updateDimensions();
+                                                }, 100);
+                                            }
+                                        }
+                                    }
+                                }
+                            );
+
+                            // Observer configuration
+                            const config = {
+                                attributes: true,
+                                childList: false,
+                                subtree: false,
+                            };
+
+                            // Start observing the target element
+                            observer.observe(targetForm, config);
+                        }
 
                         // Recalculate dimensions on resize
                         window.addEventListener("resize", updateDimensions);
