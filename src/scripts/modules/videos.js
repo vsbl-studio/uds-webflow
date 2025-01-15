@@ -99,15 +99,14 @@ export default function () {
     }
 
     function toggleVideoBlockItem(element) {
-        const videoBlockItems = document.querySelectorAll(".videos-item");
         const videoBlockTabs = document.querySelectorAll(
             ".videos-tabs-wrapper a"
         );
 
-        if (videoBlockItems.length && videoBlockTabs.length) {
-            document
-                .querySelector(`#show-${element}-video`)
-                .addEventListener("click", function (e) {
+        if (videoBlockTabs.length) {
+            const videoElem = document.querySelector(`#show-${element}-video`);
+            if (videoElem) {
+                videoElem.addEventListener("click", function (e) {
                     e.preventDefault();
 
                     clearInterval(intervalId); // Stop automatic rotation
@@ -124,6 +123,7 @@ export default function () {
                         startVideoRotation();
                     }, 100);
                 });
+            }
         }
     }
 
@@ -134,7 +134,7 @@ export default function () {
             ".videos-tabs-wrapper a"
         );
 
-        if (videoBlockItems.length && videoBlockTabs.length) {
+        if (videoBlockTabs.length) {
             videoBlockTabs.forEach((tab) => {
                 tab.classList.remove("active");
             });
@@ -144,13 +144,15 @@ export default function () {
                 activeTab.classList.add("active");
             }
 
-            videoBlockItems.forEach((image) => {
-                if (image.classList.contains(`image-${element}`)) {
-                    image.style.display = "block";
-                } else {
-                    image.style.display = "none";
-                }
-            });
+            if (videoBlockItems.length) {
+                videoBlockItems.forEach((image) => {
+                    if (image.classList.contains(`image-${element}`)) {
+                        image.style.display = "block";
+                    } else {
+                        image.style.display = "none";
+                    }
+                });
+            }
         }
         // Videos
         const videoElementsWrapper = document.querySelector(
@@ -165,17 +167,19 @@ export default function () {
                 const targetId = `video-${element}`;
 
                 if (videoId === targetId) {
-                    if (video.style.display !== "block") {
-                        video.style.display = "block";
+                    if (video.style.visibility !== "visible") {
                         video.currentTime = 0;
+                        video.style.visibility = "visible";
+                        video.style.opacity = 1;
                     }
                     video.play();
                     playVideo(video);
                 } else {
-                    if (video.style.display !== "none") {
+                    if (video.style.visibility !== "hidden") {
                         video.pause();
                         video.currentTime = 0;
-                        video.style.display = "none";
+                        video.style.visibility = "hidden";
+                        video.style.opacity = 0;
                     }
                 }
             });
