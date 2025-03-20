@@ -305,4 +305,22 @@ export default function () {
             observer.observe(wrapper);
         }
     });
+
+    const singleProductVideo = document.getElementById("product-video");
+    const playProductVideoBtn = document.querySelector(".js-play-video");
+    const stopProductVideoBtn = document.querySelector(".js-stop-video");
+
+    if (singleProductVideo && playProductVideoBtn && stopProductVideoBtn) {
+        playProductVideoBtn.addEventListener("click", () => {
+            singleProductVideo.play();
+            playProductVideoBtn.style.display = "none";
+            stopProductVideoBtn.style.display = "block";
+        });
+
+        stopProductVideoBtn.addEventListener("click", () => {
+            singleProductVideo.pause();
+            playProductVideoBtn.style.display = "block";
+            stopProductVideoBtn.style.display = "none";
+        });
+    }
 }
