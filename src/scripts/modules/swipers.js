@@ -193,7 +193,8 @@ export default function () {
                 const progressBar = wrapper.querySelector(
                     ".product-config-swiper-progress"
                 );
-                const configSwiperInstance = new Swiper(instanceWrapper, {
+
+                const instanceOptions = {
                     slidesPerView: 1.1,
                     loop: false,
                     centeredSlides: false,
@@ -218,11 +219,20 @@ export default function () {
                         },
                         992: {
                             speed: 500,
-                            slidesPerView: 3.1,
+                            slidesPerView:
+                                productConfigSlidesCount.length > 3 &&
+                                window.innerWidth >= 992
+                                    ? 3.1
+                                    : 3,
                             spaceBetween: 20,
                         },
                     },
-                });
+                };
+
+                const configSwiperInstance = new Swiper(
+                    instanceWrapper,
+                    instanceOptions
+                );
             }
         });
     }
