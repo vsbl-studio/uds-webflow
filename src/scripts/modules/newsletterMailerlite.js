@@ -52,6 +52,8 @@ export default function () {
             };
 
             if (isValid) {
+                submitHubspotForm(emailInput.value);
+
                 fetch("https://connect.mailerlite.com/api/subscribers", {
                     method: "POST",
                     headers: {
@@ -86,5 +88,68 @@ export default function () {
                     });
             }
         });
+
+        function getHubspotUTK() {
+            const match = document.cookie.match(/hubspotutk=([a-zA-Z0-9-]+)/);
+            return match ? match[1] : null;
+        }
+
+        async function getClientIP() {
+            try {
+                const response = await fetch(
+                    "https://api64.ipify.org?format=json"
+                );
+                const data = await response.json();
+                return data.ip;
+            } catch (error) {
+                console.error("Error fetching IP:", error);
+                return null;
+            }
+        }
+
+        async function submitHubspotForm(emailInputValue) {
+            // Get HubSpot tracking data
+            const hutk = getHubspotUTK();
+            const ipAddress = await getClientIP();
+
+            // Create `hs_context` object
+            const hsContext = {
+                hutk,
+                ipAddress,
+                pageUrl: window.location.href,
+                pageName: document.title,
+            };
+
+            // Convert data into URL-encoded format
+            const formData = new URLSearchParams();
+            formData.append("email", emailInputValue);
+            formData.append("hs_context", JSON.stringify(hsContext)); // Send as JSON string
+
+            // Submit the form
+            fetch(
+                "https://forms.hubspot.com/uploads/form/v2/144752004/b9ca2fe2-181c-42cd-8ccd-fa9d832334ae",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: formData.toString(),
+                }
+            )
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                        );
+                    }
+                    return response.text();
+                })
+                .then((data) => {
+                    console.log("Form submitted successfully:", data);
+                })
+                .catch((error) => {
+                    console.error("Error submitting form:", error);
+                });
+        }
     }
 }
