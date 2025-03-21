@@ -307,20 +307,23 @@ export default function () {
     });
 
     const singleProductVideo = document.getElementById("product-video");
-    const playProductVideoBtn = document.querySelector(".js-play-video");
-    const stopProductVideoBtn = document.querySelector(".js-stop-video");
 
-    if (singleProductVideo && playProductVideoBtn && stopProductVideoBtn) {
-        playProductVideoBtn.addEventListener("click", () => {
-            singleProductVideo.play();
-            playProductVideoBtn.style.display = "none";
-            stopProductVideoBtn.style.display = "block";
-        });
+    if (singleProductVideo) {
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        singleProductVideo.play();
 
-        stopProductVideoBtn.addEventListener("click", () => {
-            singleProductVideo.pause();
-            playProductVideoBtn.style.display = "block";
-            stopProductVideoBtn.style.display = "none";
-        });
+                        observer.unobserve(singleProductVideo);
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+            }
+        );
+
+        observer.observe(singleProductVideo);
     }
 }
