@@ -104,11 +104,7 @@ export default function () {
                             const observer = new MutationObserver(
                                 (mutationsList) => {
                                     for (const mutation of mutationsList) {
-                                        console.log(mutation);
                                         if (mutation.type === "attributes") {
-                                            console.log(
-                                                "Class attribute changed"
-                                            );
                                             // Check if the 'w-form-done' class is present
                                             if (
                                                 targetForm.classList.contains(

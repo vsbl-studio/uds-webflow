@@ -13,6 +13,7 @@ import button from "./modules/button";
 import { setupLenis } from "./modules/lenisSetup";
 import news from "./modules/news";
 import scrollbars from "./modules/scrollbars";
+import forms from "./modules/forms";
 document.addEventListener("DOMContentLoaded", function () {
     gsap.registerPlugin(SplitText);
     gsap.registerPlugin(ScrollTrigger);
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     news();
     scrollbars();
     newsletterMailerlite();
+    forms();
     cookieYes();
 
     // const revealTitles = document.querySelectorAll(".js-reveal-title");
