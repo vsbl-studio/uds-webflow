@@ -71,7 +71,7 @@ export default function () {
 
                     $privacyWrapper.show();
                 } else {
-                    error.insertAfter(element); // Default placement
+                    // error.insertAfter(element); // Default placement
                 }
             },
             success: function (label, element) {
