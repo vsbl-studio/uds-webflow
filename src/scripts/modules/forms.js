@@ -61,7 +61,10 @@ export default function () {
                         .closest(".form_field-wrapper")
                         .find(".form_input-error");
                     $inputWrapper.show();
-                } else if (element.attr("name") === "Privacy-Policy") {
+                } else if (
+                    element.attr("name") === "Privacy-Policy" ||
+                    element.attr("name") === "Newsletter-Privacy-Policy"
+                ) {
                     const $privacyWrapper = element
                         .closest(".form_checkbox")
                         .find(".form_privacy-error");
