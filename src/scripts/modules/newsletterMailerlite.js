@@ -152,9 +152,15 @@ export default function () {
                 })
                 .then((data) => {
                     console.log("Form submitted successfully:", data);
+                    if (newsletterSuccess) {
+                        newsletterSuccess.style.display = "block";
+                    }
                 })
                 .catch((error) => {
                     console.error("Error submitting form:", error);
+                    if (newsletterError) {
+                        newsletterError.style.display = "block";
+                    }
                 });
         }
     }
